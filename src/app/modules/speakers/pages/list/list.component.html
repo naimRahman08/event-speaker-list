@@ -1,4 +1,13 @@
 <section class='list'>
+	<div class="search">
+		<mat-form-field appearance="outline">
+			<mat-label>Search</mat-label>
+			<input matInput placeholder="start..." #searchBox id="search-box" (keyup)="search(searchBox.value)">
+			<mat-icon matSuffix>search</mat-icon>
+			<mat-hint>Only names (excluding titles)</mat-hint>
+		</mat-form-field>
+	</div>
+
 	<div class='item' *ngFor='let speaker of speakerList$ | async | slice: lowValue : highValue'>
 		<a data-section='article' routerLink="/detail" [state]="{ speaker: speaker }">
 			<mat-card>

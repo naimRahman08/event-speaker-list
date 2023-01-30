@@ -1,4 +1,5 @@
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Component } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 
@@ -11,6 +12,7 @@ import { SpeakerService } from '../../../../shared/services/speaker.service';
 })
 export class ListComponent {
 
+  private searchTerms = new Subject<string>();
   speakerList$!: Observable<any[]>;
   lowValue: number = 0;
   highValue: number = 5;
@@ -19,11 +21,15 @@ export class ListComponent {
   constructor(private speakerService: SpeakerService) { }
 
   ngOnInit() {
-    this.loadSpeakerList();
-  }
+    this.speakerService.loadSpeakerList();
 
-  loadSpeakerList() {
-    this.speakerList$ = this.speakerService.getSpeakerList();
+    this.speakerList$ = this.searchTerms.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((term: string) => this.speakerService.searchSpeaker(term))
+    );
+
+    setTimeout(() => {this.searchTerms.next('')}, 1);
   }
 
   getPaginatorData(event: PageEvent): PageEvent {
@@ -31,6 +37,10 @@ export class ListComponent {
     this.highValue = this.lowValue + event.pageSize;
 
     return event;
+  }
+
+  search(term: string): void {
+    this.searchTerms.next(term);
   }
 
 }
