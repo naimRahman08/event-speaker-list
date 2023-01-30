@@ -1,1 +1,21 @@
-<p>list works!</p>
+<section class='list'>
+	<div class='item' *ngFor='let speaker of speakerList$ | async | slice: lowValue : highValue'>
+		<a data-section='article' routerLink="/detail" [state]="{ speaker: speaker }">
+			<mat-card>
+				<mat-card-header>
+				<mat-card-title-group>
+					<mat-card-title>{{ speaker.name.title }} {{ speaker.name.first }} {{ speaker.name.last }}</mat-card-title>
+					<mat-card-subtitle>{{ speaker.location.country }}</mat-card-subtitle>
+					<img mat-card-sm-image src="{{ speaker.picture.medium }}" >
+				</mat-card-title-group>
+				</mat-card-header>
+			</mat-card>
+		</a>
+	</div>
+
+	<mat-paginator [length]="(speakerList$ | async)?.length"
+		[pageSize]=pageSize
+		(page)="getPaginatorData($event)"
+		aria-label="Select page">
+	</mat-paginator>
+</section>
