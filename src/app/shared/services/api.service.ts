@@ -30,7 +30,7 @@ export class ApiService {
 
     return this.http.get<API>(completeUrl).pipe(
       tap(_ => console.log(`fetched all ${url}`)),
-      map( response => response.results),
+      map(response => response.results),
       catchError(this.handleError<any>(`get objects ${url}`))
     );
   }

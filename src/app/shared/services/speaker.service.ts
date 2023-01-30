@@ -14,11 +14,11 @@ export class SpeakerService {
   constructor(private apiService: ApiService) { }
 
   loadSpeakerList(): void {
-      this.apiService.getResource(
-    		'https://randomuser.me/api/?results=20&page=1'
-    	).subscribe(res => {
-        this.speakersSubject.next(res);
-      });
+    this.apiService.getResource(
+      'https://randomuser.me/api/?results=20&page=1'
+    ).subscribe(res => {
+      this.speakersSubject.next(res);
+    });
   }
 
   searchSpeaker(term: string): Observable<any[]> {
