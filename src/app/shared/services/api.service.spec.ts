@@ -27,7 +27,7 @@ describe('postService (HttpClientTestingModule)', () => {
   });
 
   describe('getPosts()', () => {
-    it('should return posts when getPosts() is called', (done: DoneFn) => {
+    it('should return reources when getResource() is called', (done: DoneFn) => {
       apiService.getResource(url).subscribe((data: any) => {
         expect(data).toEqual(POSTS.results);
         done();
